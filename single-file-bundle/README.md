@@ -4,6 +4,8 @@ In Case that you produce output with the file: option you can have 2 Methods
 
 ## Single File Bundle Output
 
+Is based on a single input file. Can be Imported by SystemJS Packages ideal for a lib.
+
 ```js
 // In this example it would be
 const fullUrlWhereTheFileGetsServed = 'https://localhost:8080/single-file-bundle/dist/main.js'
@@ -23,13 +25,13 @@ export default {
 
 
 ## Inlined Single File Bundle
-if that gets inlined into the html or a other script directly then this works best while it also works with single file output that gets then directly loaded via a script tag for example. The Limitation This works also in case of circular depencies as long as no dependencie that is dynamic imported wants to depend on this bundle most best works with only additional external dependencies that work standalone
+
+That means: Your Entrypoint does not export anything is only sideEffect based.
 
 ```js
 { 
     output: { 
-        footer: `System.getRegister()[1]({},System).execute()`,
-        
+        footer: `System.getRegister()[1]({},System).execute()`,   
     } 
 }
 ```

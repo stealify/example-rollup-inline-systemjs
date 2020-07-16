@@ -1,17 +1,29 @@
 # (WiP) example-rollup-inline-systemjs
-Working Example and How To Inline SystemJS Loaders Tutorial
 
+The getRegister() based footer does with entrypoints that got exports because we have no good way to append the System.import(URL) Call which is the only valid solution to use exports while exports in general preventing from code inlining into formarts like html. If you want to inline your code you need to use the single-file-bundle example with the dir output option.
 
+Additional note:
+@rollup/plugin-html https://github.com/rollup/plugins/tree/master/packages/html will simply add a extra option to inline the systemjs loader via the getRegister() Method as this is the save way that works. While that scenario needs exploration in WebWorker Environments in general it will work well as long as the rule that a entrypoint does not export anything applys. In general as for iife or global..
+
+## Rules
+- Every Entrypoint needs the 2,4kb loader added but executed and assigned to the environment based global once per environment it is loaded in
+- import() Related (Only Method that you can use when you got exports in your entrypoints that get reused does not allow to be inlined into html)
+  - Every Entrypoint needs to be aware of the final URL it gets Served From 
+    - Exemption we use the named register plugin and output
+  - is not supported because of missing abilitys to use fileName in Banner and Footer needs rethinking
+    - possible workarounds manual referencing all entrypoints
+    - add support for fileName to the intro, banner,footer hooks
+- getRegister() Related (use the working single-file-bundle example but change output to dir and use the footer with getRegister)
+  - is the only one you can use when you inline the entrypoint for example into html
+  - Entrypoints are not allowed to have exports
 
 ## Examples
 
 - (Working!) single-file-bundle
-- (Not Working!) code-splitting-bundle 
+- (Working NotFully!) code-splitting-bundle
 
 
-
-
-#### Example Single file bundle Working!
+#### Example Single-file-bundle Working!
 Single file bundle that uses SystemJS dynamic import with external dependencies for example or if it gets inlined into a script tag inside HTML
 
 ```js
